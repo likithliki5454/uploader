@@ -1,25 +1,52 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      image: "",
+    };
+
+    this.onImageChange = this.onImageChange.bind(this);
+  }
+
+
+  onImageChange = (event) => { 
+    var output = event.target.value;
+    var extension = output.split(".").pop();
+    console.log(extension);
+    console.log(typeof extension);
+
+    if (event.target.files && extension == "jpeg" || extension == "jpg"   && event.target.files[0]) {
+      let img = event.target.files[0];
+
+      this.setState({
+        image: URL.createObjectURL(img)
+      });
+      alert("sucessfully submitted");
+    } else {
+     
+      alert("invalid");
+    }
+  };
+
+  render() {
+    return (
+      <div>
+        <h1>Select Image</h1>
+        <input
+          id="filename"
+          type="file"
+          name="myImage"
+          accept="image/JPEG "
+          onChange={this.onImageChange}
+        />
+
+        <div>
+          <img src={this.state.image} />
+        </div>
+      </div>
+    );
+  }
 }
-
 export default App;
